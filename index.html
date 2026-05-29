@@ -1,84 +1,92 @@
-VIDEY
-
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIDEY</title>
-    <!-- Menggunakan Font Montserrat agar lebih modern -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>CineStream Mobile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #0f0c1b 0%, #15102a 50%, #06020f 100%);
+            background-color: #06070d;
             color: #ffffff;
-            min-height: 100vh;
-            padding: 30px;
+            padding-bottom: 40px;
         }
 
-        /* Header Keren */
+        /* Header App */
         header {
-            max-width: 1300px;
-            margin: 0 auto 25px auto;
+            padding: 15px 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, #06070d, transparent);
         }
 
         header h1 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(45deg, #ff007f, #7928ca);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .badge-live {
-            background: rgba(255, 0, 127, 0.2);
-            border: 1px solid #ff007f;
-            color: #ff007f;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
             letter-spacing: 1px;
-            text-transform: uppercase;
+            color: #e50914; /* Warna Merah Khas Bioskop/Netflix */
         }
 
-        /* Layout Utama */
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2.4fr 1fr;
-            gap: 30px;
-        }
-
-        /* Kanan-Kiri Pemutar Video (Glassmorphism Effect) */
-        .main-video-wrapper {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .premium-badge {
+            background: linear-gradient(45deg, #ffaa00, #ff5500);
+            font-size: 0.7rem;
+            padding: 4px 10px;
             border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(255, 85, 0, 0.5);
+        }
+
+        /* Kategori / Genre (Bisa Di-scroll Menyamping) */
+        .categories {
+            display: flex;
+            gap: 10px;
+            padding: 0 20px 15px 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none; /* Sembunyikan scrollbar agar rapi */
+        }
+
+        .category-item {
+            background: #131520;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #9ca3af;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .category-item.active {
+            background: #e50914;
+            color: #fff;
+            border-color: #e50914;
+        }
+
+        /* Player Video Utama (Sticky / Menempel di Atas HP) */
+        .main-video-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            background-color: #000;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
         }
 
         .video-container {
-            position: relative;
             width: 100%;
             aspect-ratio: 16/9;
-            background: #000;
         }
 
         video {
@@ -87,140 +95,143 @@ VIDEY
             object-fit: contain;
         }
 
+        /* Info Film Utama */
         .video-info {
-            padding: 25px;
+            padding: 20px;
+            background: #06070d;
+        }
+
+        .video-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+        }
+
+        .rating {
+            color: #ffaa00;
+            font-weight: 600;
+        }
+
+        .quality {
+            background: #1f2937;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .year {
+            color: #9ca3af;
         }
 
         .video-info h2 {
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            margin-bottom: 12px;
-            color: #fff;
-            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            line-height: 1.3;
         }
 
         .video-info p {
-            color: #b3b3b3;
-            font-size: 0.95rem;
+            color: #9ca3af;
+            font-size: 0.85rem;
             line-height: 1.6;
         }
 
-        /* Daftar Video Selanjutnya */
-        .playlist-wrapper {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 25px;
-            max-height: 680px;
-            overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        /* Rekomendasi Film Selanjutnya */
+        .playlist-section {
+            padding: 10px 20px;
         }
 
-        /* Kustomisasi Scrollbar */
-        .playlist-wrapper::-webkit-scrollbar {
-            width: 6px;
-        }
-        .playlist-wrapper::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        .playlist-wrapper h3 {
-            margin-bottom: 20px;
-            font-size: 1.1rem;
+        .playlist-section h3 {
+            font-size: 1rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #8a85a5;
+            margin-bottom: 15px;
+            color: #f3f4f6;
         }
 
+        .playlist-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Tampilan Card Film */
         .playlist-item {
             display: flex;
             gap: 15px;
-            margin-bottom: 15px;
-            cursor: pointer;
+            background: #11131e;
             padding: 10px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 1px solid transparent;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            align-items: center;
         }
 
-        .playlist-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+        .playlist-item:active {
+            background: #181b2a;
+            transform: scale(0.98);
         }
 
-        /* Gaya Item Aktif */
         .playlist-item.active {
-            background: linear-gradient(90deg, rgba(121, 40, 202, 0.2) 0%, rgba(255, 0, 127, 0.05) 100%);
-            border-color: rgba(121, 40, 202, 0.4);
+            border-color: #e50914;
+            background: rgba(229, 9, 20, 0.05);
         }
 
-        .thumbnail-box {
+        .playlist-item.active h4 {
+            color: #e50914;
+        }
+
+        /* Poster Film di Samping */
+        .poster-box {
             position: relative;
-            width: 120px;
-            min-width: 120px;
-            aspect-ratio: 16/9;
-            background: #1f1a3a;
+            width: 90px;
+            min-width: 90px;
+            aspect-ratio: 2/3; /* Rasio standar poster film tegak */
+            background: #1f2937;
             border-radius: 8px;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .thumbnail-box img {
+        .poster-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .duration {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background: rgba(0, 0, 0, 0.8);
-            font-size: 0.7rem;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
+        /* Info Text Film */
         .item-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            flex: 1;
         }
 
         .item-info h4 {
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 6px;
+            color: #f3f4f6;
             line-height: 1.4;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            color: #eaeaea;
         }
 
-        .item-info p {
+        .item-info .item-meta {
             font-size: 0.75rem;
-            color: #8a85a5;
-            font-weight: 600;
+            color: #9ca3af;
+            display: flex;
+            gap: 8px;
         }
 
-        /* Responsif untuk Tablet & HP */
-        @media (max-width: 992px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
+        /* Penyesuaian Jika Dibuka di Laptop */
+        @media (min-width: 769px) {
             body {
-                padding: 15px;
+                max-width: 430px;
+                margin: 0 auto;
+                box-shadow: 0 0 40px rgba(0,0,0,0.6);
+                background-color: #06070d;
+                min-height: 100vh;
             }
         }
     </style>
@@ -228,89 +239,114 @@ VIDEY
 <body>
 
     <header>
-        <h1>NEXTREAM</h1>
-        <div class="badge-live">Cinema Mode</div>
+        <h1>CINESTREAM</h1>
+        <div class="premium-badge">VIP PREMIUM</div>
     </header>
 
-    <div class="container">
-        <!-- Video Utama -->
-        <div class="main-video-wrapper">
-            <div class="video-container">
-                <video id="main-player" controls autoplay>
-                    <source id="video-source" src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                    Browser tidak mendukung video player ini.
-                </video>
-            </div>
-            <div class="video-info">
-                <h2 id="video-title">Big Buck Bunny</h2>
-                <p id="video-desc">Animasi open-source legendaris dari Blender Institute. Mengisahkan petualangan seekor kelinci raksasa yang ramah dalam membalas keisengan para tupai terbang di hutan.</p>
-            </div>
-        </div>
+    <div class="categories">
+        <span class="category-item active">Semua</span>
+        <span class="category-item">Aksi</span>
+        <span class="category-item">Sci-Fi</span>
+        <span class="category-item">Animasi</span>
+        <span class="category-item">Drama</span>
+    </div>
 
-        <!-- Daftar Video Selanjutnya -->
-        <div class="playlist-wrapper">
-            <h3>Putar Selanjutnya</h3>
-            
-            <!-- Video 1 (Aktif Pertama) -->
-            <div class="playlist-item active" onclick="changeVideo(this, 'https://www.w3schools.com/html/mov_bbb.mp4', 'Big Buck Bunny', 'Animasi open-source legendaris dari Blender Institute. Mengisahkan petualangan seekor kelinci raksasa yang ramah dalam membalas keisengan para tupai terbang di hutan.')">
-                <div class="thumbnail-box">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&q=80" alt="Thumb">
-                    <span class="duration">0:33</span>
-                </div>
-                <div class="item-info">
-                    <h4>Big Buck Bunny</h4>
-                    <p>Blender Foundation</p>
-                </div>
-            </div>
-
-            <!-- Video 2 -->
-            <div class="playlist-item" onclick="changeVideo(this, 'https://www.w3schools.com/html/movie.mp4', 'Exploring the Wild Nature', 'Melihat lebih dekat kehidupan satwa liar dan beruang di habitat aslinya. Nikmati ketenangan alam yang menakjubkan melalui rekaman sinematik ini.')">
-                <div class="thumbnail-box">
-                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200&q=80" alt="Thumb">
-                    <span class="duration">0:12</span>
-                </div>
-                <div class="item-info">
-                    <h4>Exploring the Wild Nature</h4>
-                    <p>National Geographic</p>
-                </div>
-            </div>
-
-            <!-- Video 3 -->
-            <div class="playlist-item" onclick="changeVideo(this, 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1611-large.mp4', 'Cosmos: Journey into the Galaxies', 'Perjalanan visual melintasi nebula luar angkasa dan rasi bintang kosmik. Sebuah tayangan santai dengan efek estetik galaksi yang mendalam.')">
-                <div class="thumbnail-box">
-                    <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=200&q=80" alt="Thumb">
-                    <span class="duration">1:15</span>
-                </div>
-                <div class="item-info">
-                    <h4>Cosmos: Journey into Galaxies</h4>
-                    <p>Space Odyssey</p>
-                </div>
-            </div>
+    <div class="main-video-wrapper">
+        <div class="video-container">
+            <video id="main-player" controls autoplay>
+                <source id="video-source" src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            </video>
         </div>
     </div>
 
-    <!-- JavaScript dengan Efek Transisi Playlist Aktif -->
+    <div class="video-info">
+        <div class="video-meta">
+            <span class="rating">★ 4.8</span>
+            <span class="quality">Ultra HD</span>
+            <span class="year">2026</span>
+        </div>
+        <h2 id="video-title">Big Buck Bunny: Petualangan Hutan</h2>
+        <p id="video-desc">Kisah epik seekor kelinci raksasa berhati lembut yang memutuskan untuk membalas dendam kepada sekelompok tupai terbang nakal yang mengacaukan ketenangan rumahnya.</p>
+    </div>
+
+    <div class="playlist-section">
+        <h3>Rekomendasi Serupa</h3>
+        <div class="playlist-container">
+            
+            <div class="playlist-item active" onclick="changeMovie(this, 'https://www.w3schools.com/html/mov_bbb.mp4', 'Big Buck Bunny: Petualangan Hutan', '★ 4.8', 'Ultra HD', '2026', 'Kisah epik seekor kelinci raksasa berhati lembut yang memutuskan untuk membalas dendam kepada sekelompok tupai terbang nakal yang mengacaukan ketenangan rumahnya.')">
+                <div class="poster-box">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&q=80" alt="Poster">
+                </div>
+                <div class="item-info">
+                    <h4>Big Buck Bunny: Petualangan Hutan</h4>
+                    <div class="item-meta">
+                        <span style="color:#ffaa00">★ 4.8</span>
+                        <span>Animasi</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="playlist-item" onclick="changeMovie(this, 'https://www.w3schools.com/html/movie.mp4', 'The Wild: Jejak Beruang Kutub', '★ 4.5', 'HD', '2025', 'Dokumenter sinematik yang mendebarkan tentang bagaimana cara kawanan beruang bertahan hidup di tengah kerasnya hantaman badai salju dan perubahan iklim global.'))">
+                <div class="poster-box">
+                    <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=300&q=80" alt="Poster">
+                </div>
+                <div class="item-info">
+                    <h4>The Wild: Jejak Beruang Kutub</h4>
+                    <div class="item-meta">
+                        <span style="color:#ffaa00">★ 4.5</span>
+                        <span>Sains & Alam</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="playlist-item" onclick="changeMovie(this, 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1611-large.mp4', 'Interstellar: Penjelajah Galaksi', '★ 4.9', '4K Cinematic', '2026', 'Membawa penonton melintasi batas kecepatan cahaya menembus lubang cacing demi menemukan planet baru yang bisa dihuni oleh umat manusia di masa depan.'))">
+                <div class="poster-box">
+                    <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=300&q=80" alt="Poster">
+                </div>
+                <div class="item-info">
+                    <h4>Interstellar: Penjelajah Galaksi</h4>
+                    <div class="item-meta">
+                        <span style="color:#ffaa00">★ 4.9</span>
+                        <span>Sci-Fi</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <script>
-        function changeVideo(element, videoSrc, title, description) {
+        function changeMovie(element, videoSrc, title, rating, quality, year, description) {
             const player = document.getElementById('main-player');
             const source = document.getElementById('video-source');
             const videoTitle = document.getElementById('video-title');
             const videoDesc = document.getElementById('video-desc');
+            const metaContainer = document.querySelector('.video-meta');
 
-            // Ubah source video dan informasi teks
+            // Ganti source video dan data teks
             source.src = videoSrc;
             videoTitle.innerText = title;
             videoDesc.innerText = description;
 
-            // Muat ulang video dan mainkan
+            // Ganti data metadata (Rating, Kualitas, Tahun)
+            metaContainer.innerHTML = `
+                <span class="rating">${rating}</span>
+                <span class="quality">${quality}</span>
+                <span class="year">${year}</span>
+            `;
+
+            // Reload dan jalankan film otomatis
             player.load();
             player.play();
 
-            // Hapus kelas 'active' dari video lama, pasang di video baru yang diklik
+            // Ubah indikator film aktif di daftar rekomendasi
             document.querySelectorAll('.playlist-item').forEach(item => {
                 item.classList.remove('active');
             });
             element.classList.add('active');
+
+            // Scroll perlahan kembali ke atas agar video langsung terlihat di layar HP
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
     </script>
 
